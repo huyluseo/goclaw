@@ -15,5 +15,14 @@
   "pendingPairingRequest": "{{count}} yêu cầu ghép nối đang chờ",
   "pendingPairingRequests": "{{count}} yêu cầu ghép nối đang chờ",
   "apiKeys": "API Keys",
+  "about": {
+    "menuItem": "Giới thiệu GoClaw",
+    "title": "Giới thiệu GoClaw",
+    "version": "Phiên bản",
+    "sourceCode": "Mã nguồn",
+    "license": "Giấy phép",
+    "documentation": "Tài liệu",
+    "reportBug": "Báo lỗi"
+  },
   "toggleTheme": "Chuyển đổi giao diện"
 }
