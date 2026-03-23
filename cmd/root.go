@@ -47,13 +47,21 @@ func init() {
 }
 
 func versionCmd() *cobra.Command {
-	return &cobra.Command{
+	var short bool
+	c := &cobra.Command{
 		Use:   "version",
-		Short: "Print version information",
+		Short: "Print version information and check for updates",
 		Run: func(cmd *cobra.Command, args []string) {
+			if short {
+				fmt.Println(Version)
+				return
+			}
 			fmt.Printf("goclaw %s (protocol %d)\n", Version, protocol.ProtocolVersion)
+			printVersionCheck(Version)
 		},
 	}
+	c.Flags().BoolVar(&short, "short", false, "print only the version string")
+	return c
 }
 
 func resolveConfigPath() string {
