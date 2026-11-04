@@ -6,6 +6,17 @@ Significant changes, features, and fixes in reverse chronological order.
 
 ## 2026-11-04
 
+### ChatGPT Subscription (OAuth) agent runs no longer crash
+
+**Fixes**
+
+- Fixed a nil pointer panic that killed every run on a ChatGPT OAuth provider
+  before the LLM call, leaving channel users with no reply. The native
+  `image_generation` tool has no `Function`, and three pipeline paths read it
+  without checking.
+- Anthropic requests now drop native tools from other providers, so model
+  fallback cannot hit the same panic.
+
 ### ChatGPT Subscription (OAuth) model catalog refresh
 
 **Fixes**
