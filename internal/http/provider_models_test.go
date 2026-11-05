@@ -96,16 +96,23 @@ func TestProvidersHandlerListProviderModelsChatGPTOAuthIncludesReasoningMetadata
 		t.Fatalf("reasoning_defaults.effort = %q, want high", result.ReasoningDefaults.Effort)
 	}
 
-	if result.Models[0].ID != providers.DefaultCodexModel {
-		t.Fatalf("first model = %q, want default %q", result.Models[0].ID, providers.DefaultCodexModel)
+	wantIDs := []string{
+		providers.DefaultCodexModel,
+		"gpt-6-astra",
+		"gpt-6.1-terra",
+		"gpt-6-sol",
+		"gpt-6-luna",
+		"gpt-5.6-sol",
+		"gpt-5.6-terra",
+		"gpt-5.6-luna",
 	}
+	if len(result.Models) != len(wantIDs) {
+		t.Fatalf("len(models) = %d, want %d: %#v", len(result.Models), len(wantIDs), result.Models)
+	}
+	assertModelIDsInOrder(t, result.Models, wantIDs)
 
 	var found bool
 	for _, model := range result.Models {
-		switch model.ID {
-		case "gpt-5.5", "gpt-5.4", "gpt-5.4-mini", "gpt-5.3-codex", "gpt-5.3-codex-spark", "gpt-5.2":
-			t.Fatalf("%s is no longer available with ChatGPT sign-in", model.ID)
-		}
 		if model.Reasoning == nil {
 			t.Fatalf("%s reasoning = nil, want capability metadata", model.ID)
 		}
@@ -603,5 +610,22 @@ func TestProvidersHandlerListProviderModelsOllamaCloudSendsAuthHeader(t *testing
 	}
 	if len(result.Models) != 1 || result.Models[0].ID != "cloud-model:latest" {
 		t.Errorf("models = %#v, want [{ID: cloud-model:latest}]", result.Models)
+	}
+}
+
+func assertModelIDsInOrder(t *testing.T, models []ModelInfo, want []string) {
+	t.Helper()
+	position := 0
+	for _, model := range models {
+		if position < len(want) && model.ID == want[position] {
+			position++
+		}
+	}
+	if position != len(want) {
+		got := make([]string, 0, len(models))
+		for _, model := range models {
+			got = append(got, model.ID)
+		}
+		t.Fatalf("model IDs = %#v, want sequence %#v", got, want)
 	}
 }
