@@ -173,6 +173,8 @@ func mimeFromExt(ext string) string {
 		return "audio/mpeg"
 	case ".wav":
 		return "audio/wav"
+	case ".aac":
+		return "audio/aac"
 	case ".txt":
 		return "text/plain"
 	case ".pdf":

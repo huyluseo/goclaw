@@ -303,7 +303,7 @@
       "label": "Verification Token",
       "help": "For webhook mode"
     },
-    "webhook_secret": { "label": "Webhook Secret" },
+    "webhook_secret": { "label": "Webhook Secret", "help": "8-256 characters, unique per bot. Zalo sends it back with every event." },
     "api_server": {
       "label": "API Server URL",
       "help": "Custom Telegram Bot API server for large file uploads (up to 2GB). Leave empty for default."
@@ -359,7 +359,7 @@
       "label": "Webhook Path",
       "help": "Path on main server for Lark events"
     },
-    "webhook_url": { "label": "Webhook URL" },
+    "webhook_url": { "label": "Webhook URL", "help": "Public HTTPS address ending in /v1/channels/zalo_bot/webhook" },
     "topic_session_mode": {
       "label": "Topic Session Mode",
       "help": "Use thread root_id for session isolation"
@@ -550,6 +550,7 @@
     },
     "connection_mode": {
       "webhook": "Webhook",
+      "polling": "Polling (no public URL needed)",
       "websocket": "WebSocket (recommended)"
     },
     "topic_session_mode": {

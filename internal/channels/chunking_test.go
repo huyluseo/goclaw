@@ -535,3 +535,72 @@ func TestChunkMarkdown_EmptyLines(t *testing.T) {
 		t.Fatal("content was lost with multiple empty lines")
 	}
 }
+
+func TestChunkMarkdownBySentence_EndsChunksAtSentences(t *testing.T) {
+	text := strings.TrimSpace(strings.Repeat("Mot cau van binh thuong de thu. ", 10))
+	chunks := ChunkMarkdownBySentence(text, 100)
+	if len(chunks) < 2 {
+		t.Fatalf("expected several chunks, got %d", len(chunks))
+	}
+	for _, chunk := range chunks {
+		if len(chunk) > 100 {
+			t.Fatalf("chunk of %d bytes exceeds the limit", len(chunk))
+		}
+		if !strings.HasSuffix(chunk, ".") {
+			t.Fatalf("chunk does not end a sentence: %q", chunk)
+		}
+	}
+}
+
+func TestChunkMarkdownBySentence_SkipsEarlyParagraphBreak(t *testing.T) {
+	text := "Intro.\n\n" + strings.Repeat("Sentence goes here. ", 10)
+	chunks := ChunkMarkdownBySentence(text, 100)
+	if len(chunks[0]) < 50 {
+		t.Fatalf("first chunk is needlessly short: %q", chunks[0])
+	}
+}
+
+func TestChunkMarkdownBySentence_PrefersParagraphOverSentence(t *testing.T) {
+	text := strings.Repeat("a", 60) + ".\n\n" + strings.Repeat("Next one. ", 10)
+	chunks := ChunkMarkdownBySentence(text, 100)
+	if chunks[0] != strings.Repeat("a", 60)+"." {
+		t.Fatalf("first chunk = %q", chunks[0])
+	}
+}
+
+func TestChunkMarkdownBySentence_FallsBackToSpace(t *testing.T) {
+	text := strings.Repeat("word ", 40)
+	for _, chunk := range ChunkMarkdownBySentence(text, 52) {
+		if len(chunk) > 52 || strings.HasSuffix(chunk, "wor") {
+			t.Fatalf("bad chunk: %q", chunk)
+		}
+	}
+}
+
+func TestChunkMarkdownBySentence_KeepsCodeBlocksWhole(t *testing.T) {
+	code := "```\nfirst. second. third.\n```"
+	text := strings.Repeat("Some text here. ", 4) + "\n\n" + code
+	chunks := ChunkMarkdownBySentence(text, 80)
+	if chunks[len(chunks)-1] != code {
+		t.Fatalf("chunks = %q", chunks)
+	}
+}
+
+func TestEndsSentence(t *testing.T) {
+	cases := map[string]bool{
+		"Xong.":      true,
+		"That sao?":  true,
+		"Hay qua!":   true,
+		"Roi…":       true,
+		`Noi "vay."`: true,
+		"**Dam.**":   true,
+		"Muc 1.":     false,
+		"chua xong":  false,
+		"":           false,
+	}
+	for input, want := range cases {
+		if got := endsSentence(input); got != want {
+			t.Errorf("endsSentence(%q) = %v, want %v", input, got, want)
+		}
+	}
+}
