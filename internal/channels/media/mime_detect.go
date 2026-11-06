@@ -33,6 +33,8 @@ func DetectMIMEType(fileName string) string {
 		return "video/x-matroska"
 	case ".m4a":
 		return "audio/mp4"
+	case ".aac":
+		return "audio/aac"
 	default:
 		return "application/octet-stream"
 	}

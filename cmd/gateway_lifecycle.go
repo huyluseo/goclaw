@@ -10,6 +10,7 @@ import (
 	"github.com/nextlevelbuilder/goclaw/internal/bus"
 	"github.com/nextlevelbuilder/goclaw/internal/cache"
 	"github.com/nextlevelbuilder/goclaw/internal/channels"
+	"github.com/nextlevelbuilder/goclaw/internal/channels/zalobot"
 	"github.com/nextlevelbuilder/goclaw/internal/config"
 	"github.com/nextlevelbuilder/goclaw/internal/edition"
 	"github.com/nextlevelbuilder/goclaw/internal/heartbeat"
@@ -256,6 +257,9 @@ func (d *gatewayDeps) runLifecycle(
 		mux.Handle(route.Path, route.Handler)
 		slog.Info("webhook route mounted on gateway", "path", route.Path)
 	}
+	// Mounted unconditionally: the mux is fixed after startup, and Zalo Bot
+	// instances can be created at runtime.
+	mux.Handle(zalobot.RoutePrefix, zalobot.Handler())
 
 	tsCleanup := initTailscale(ctx, d.cfg, mux)
 	if tsCleanup != nil {

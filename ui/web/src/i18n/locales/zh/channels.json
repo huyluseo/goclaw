@@ -293,7 +293,7 @@
     "app_secret": { "label": "App Secret" },
     "encrypt_key": { "label": "加密密钥", "help": "用于Webhook模式" },
     "verification_token": { "label": "验证Token", "help": "用于Webhook模式" },
-    "webhook_secret": { "label": "Webhook Secret" },
+    "webhook_secret": { "label": "Webhook Secret", "help": "8-256 个字符，每个机器人必须唯一。Zalo 会在每个事件中回传此值。" },
     "api_server": { "label": "API 服务器 URL", "help": "自定义 Telegram Bot API 服务器用于大文件上传（最大 2GB）。留空使用默认服务器。" },
     "proxy": { "label": "HTTP 代理", "help": "通过 HTTP 代理路由Bot流量" },
     "dm_policy": { "label": "私聊策略" },
@@ -313,7 +313,7 @@
     "connection_mode": { "label": "连接模式", "help": "WebSocket 无需公网 IP — 仅需出站连接" },
     "webhook_port": { "label": "Webhook 端口", "help": "0 = 共享主网关端口（推荐）" },
     "webhook_path": { "label": "Webhook 路径", "help": "主服务器上 Lark 事件的路径" },
-    "webhook_url": { "label": "Webhook URL" },
+    "webhook_url": { "label": "Webhook URL", "help": "以 /v1/channels/zalo_bot/webhook 结尾的公网 HTTPS 地址" },
     "topic_session_mode": { "label": "话题会话模式", "help": "使用线程 root_id 进行会话隔离" },
     "render_mode": { "label": "渲染模式" },
     "text_chunk_limit": { "label": "文本分段限制", "help": "每条消息最大字符数" },
@@ -480,6 +480,7 @@
     },
     "connection_mode": {
       "webhook": "Webhook",
+      "polling": "轮询（无需公网 URL）",
       "websocket": "WebSocket（推荐）"
     },
     "topic_session_mode": {

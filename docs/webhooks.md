@@ -486,6 +486,7 @@ Relevant for `POST /v1/webhooks/message` with `media_url`.
 | `zalo_personal` | yes | yes |
 | `pancake` | yes | yes |
 | `facebook` | yes | yes |
+| `zalo_bot` | yes | yes |
 | `zalo_oa` | yes | no |
 
 When `media_url` is sent to a non-media-capable channel:

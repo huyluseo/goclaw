@@ -93,6 +93,10 @@ export const credentialsSchema: Record<string, FieldDef[]> = {
     { key: "encrypt_key", label: "Encrypt Key", type: "password", help: "For webhook event decryption", showWhen: { key: "connection_mode", value: "webhook" } },
     { key: "verification_token", label: "Verification Token", type: "password", help: "For webhook event verification", showWhen: { key: "connection_mode", value: "webhook" } },
   ],
+  zalo_bot: [
+    { key: "token", label: "Bot Token", type: "password", required: true },
+    { key: "webhook_secret", label: "Webhook Secret", type: "password", help: "8-256 characters, unique per bot. Zalo sends it back with every event.", showWhen: { key: "connection_mode", value: "webhook" } },
+  ],
   zalo_oa: [
     { key: "token", label: "OA Access Token", type: "password", required: true },
     { key: "webhook_secret", label: "Webhook Secret", type: "password" },
@@ -196,6 +200,17 @@ export const configSchema: Record<string, FieldDef[]> = {
     { key: "reaction_level", label: "Reaction Level", type: "select", options: [{ value: "off", label: "Off" }, { value: "minimal", label: "Minimal" }, { value: "full", label: "Full" }], defaultValue: "off", help: "Typing emoji reaction on user messages while bot is processing" },
     { key: "allow_from", label: "Allowed Users", type: "tags", help: "Lark open_ids (ou_...)" },
     { key: "group_allow_from", label: "Group Allowed Users", type: "tags", help: "Separate allowlist for group senders" },
+    ...chatBehaviorOverrideFields,
+  ],
+  zalo_bot: [
+    { key: "connection_mode", label: "Connection Mode", type: "select", options: [{ value: "polling", label: "Polling (no public URL needed)" }, { value: "webhook", label: "Webhook (recommended for production)" }], defaultValue: "polling" },
+    { key: "webhook_url", label: "Webhook URL", type: "text", placeholder: "https://your-domain/v1/channels/zalo_bot/webhook", help: "Public HTTPS address ending in /v1/channels/zalo_bot/webhook", showWhen: { key: "connection_mode", value: "webhook" } },
+    { key: "dm_policy", label: "DM Policy", type: "select", options: dmPolicyOptions, defaultValue: "pairing" },
+    { key: "group_policy", label: "Group Policy", type: "select", options: groupPolicyOptions, defaultValue: "pairing" },
+    { key: "require_mention", label: "Require @mention in groups", type: "boolean", defaultValue: false },
+    { key: "history_limit", label: "Group History Limit", type: "number", defaultValue: 200 },
+    { key: "media_max_mb", label: "Max Media Size (MB)", type: "number", defaultValue: 20 },
+    { key: "allow_from", label: "Allowed Users", type: "tags", help: "Zalo user IDs" },
     ...chatBehaviorOverrideFields,
   ],
   zalo_oa: [

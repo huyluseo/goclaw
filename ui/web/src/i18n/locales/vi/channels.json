@@ -293,7 +293,7 @@
     "app_secret": { "label": "App Secret" },
     "encrypt_key": { "label": "Khóa mã hóa", "help": "Cho chế độ webhook" },
     "verification_token": { "label": "Token xác minh", "help": "Cho chế độ webhook" },
-    "webhook_secret": { "label": "Webhook Secret" },
+    "webhook_secret": { "label": "Webhook Secret", "help": "8-256 ký tự, không trùng giữa các bot. Zalo gửi kèm chuỗi này trong mọi sự kiện." },
     "api_server": { "label": "URL máy chủ API", "help": "Máy chủ API Bot Telegram tùy chỉnh cho tải file lớn (lên đến 2GB). Để trống cho mặc định." },
     "proxy": { "label": "Proxy HTTP", "help": "Định tuyến lưu lượng bot qua proxy HTTP" },
     "dm_policy": { "label": "Chính sách DM" },
@@ -313,7 +313,7 @@
     "connection_mode": { "label": "Chế độ kết nối", "help": "WebSocket không cần IP công khai — chỉ kết nối ra ngoài" },
     "webhook_port": { "label": "Cổng webhook", "help": "0 = chia sẻ cổng gateway chính (khuyến nghị)" },
     "webhook_path": { "label": "Đường dẫn webhook", "help": "Đường dẫn trên máy chủ chính cho sự kiện Lark" },
-    "webhook_url": { "label": "URL Webhook" },
+    "webhook_url": { "label": "URL Webhook", "help": "Địa chỉ HTTPS công khai, kết thúc bằng /v1/channels/zalo_bot/webhook" },
     "topic_session_mode": { "label": "Chế độ phiên chủ đề", "help": "Dùng root_id của luồng để cách ly phiên" },
     "render_mode": { "label": "Chế độ hiển thị" },
     "text_chunk_limit": { "label": "Giới hạn ký tự", "help": "Số ký tự tối đa mỗi tin nhắn" },
@@ -480,6 +480,7 @@
     },
     "connection_mode": {
       "webhook": "Webhook",
+      "polling": "Polling (không cần URL công khai)",
       "websocket": "WebSocket (khuyên dùng)"
     },
     "topic_session_mode": {
