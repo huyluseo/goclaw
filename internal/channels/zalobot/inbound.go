@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/nextlevelbuilder/goclaw/internal/channels"
@@ -207,13 +208,22 @@ func (c *Channel) collectContact(ctx context.Context, msg *message, peerKind str
 }
 
 func (c *Channel) startTyping(chatID string) {
+	// The typing controller logs failures at debug level only. Warn once per
+	// run so a chat type the API rejects (groups are beta) shows up in logs.
+	var warnOnce sync.Once
 	ctrl := typing.New(typing.Options{
 		MaxDuration:       60 * time.Second,
 		KeepaliveInterval: 4 * time.Second,
 		StartFn: func() error {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
-			return c.api.sendTyping(ctx, chatID)
+			err := c.api.sendTyping(ctx, chatID)
+			if err != nil {
+				warnOnce.Do(func() {
+					slog.Warn("zalo_bot: typing indicator failed", "channel", c.Name(), "chat_id", chatID, "error", err)
+				})
+			}
+			return err
 		},
 	})
 	if prev, ok := c.typingCtrls.Swap(chatID, ctrl); ok {
