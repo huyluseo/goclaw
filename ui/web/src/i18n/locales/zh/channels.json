@@ -299,6 +299,7 @@
     "dm_policy": { "label": "私聊策略" },
     "group_policy": { "label": "群组策略" },
     "require_mention": { "label": "群组中需要 @提及", "disabledHint": "多机器人模式始终监听所有消息" },
+    "mention_names": { "label": "提及名称", "help": "成员在 Zalo 中 @ 机器人时使用的显示名称，例如 Bot Mao Trung。账号名 (bot.xxx) 始终有效。" },
     "mention_mode": { "label": "群组响应行为", "help": "机器人在多机器人群组中如何决定何时响应。" },
     "history_limit": { "label": "群组历史限制", "help": "上下文中最大待处理群组消息数（0 = 禁用）" },
     "dm_stream": { "label": "私聊流式传输", "help": "在私聊中逐步传输回复" },

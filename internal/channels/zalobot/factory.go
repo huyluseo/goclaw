@@ -23,6 +23,7 @@ type instanceConfig struct {
 	DMPolicy       string                     `json:"dm_policy,omitempty"`
 	GroupPolicy    string                     `json:"group_policy,omitempty"`
 	RequireMention *bool                      `json:"require_mention,omitempty"`
+	MentionNames   []string                   `json:"mention_names,omitempty"`
 	HistoryLimit   *int                       `json:"history_limit,omitempty"`
 	MediaMaxMB     int                        `json:"media_max_mb,omitempty"`
 	AllowFrom      []string                   `json:"allow_from,omitempty"`
@@ -61,6 +62,7 @@ func Factory(pendingStore store.PendingMessageStore, publicURL func() string) ch
 			DMPolicy:       ic.DMPolicy,
 			GroupPolicy:    ic.GroupPolicy,
 			RequireMention: ic.RequireMention != nil && *ic.RequireMention,
+			MentionNames:   ic.MentionNames,
 			HistoryLimit:   historyLimit,
 			MediaMaxMB:     ic.MediaMaxMB,
 			AllowFrom:      ic.AllowFrom,

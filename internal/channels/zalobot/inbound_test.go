@@ -89,6 +89,21 @@ func TestGroupMentionGateKeepsContext(t *testing.T) {
 	}
 }
 
+func TestGroupMentionMatchesConfiguredNames(t *testing.T) {
+	startFakeAPI(t)
+	ch, msgBus := newRunningChannel(t, Config{RequireMention: true, MentionNames: []string{" @Bot Mao Trung ", ""}})
+
+	ch.processUpdate(textUpdate("m1", "GROUP", "@Bot Mao Trung báo cáo tháng này"))
+	if _, ok := consumeOne(t, msgBus); !ok {
+		t.Fatal("message tagging a configured name must reach the agent")
+	}
+
+	ch.processUpdate(textUpdate("m2", "GROUP", "Bot Mao Trung without the at sign"))
+	if msg, ok := consumeOne(t, msgBus); ok {
+		t.Fatalf("name without @ must not count as a mention: %+v", msg)
+	}
+}
+
 func TestUnsupportedEventIgnored(t *testing.T) {
 	startFakeAPI(t)
 	ch, msgBus := newRunningChannel(t, Config{})

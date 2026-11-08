@@ -318,6 +318,10 @@
       "label": "Require @mention in groups",
       "disabledHint": "Multi-bot mode always listens to all messages"
     },
+    "mention_names": {
+      "label": "Mention Names",
+      "help": "Bot display name as members tag it in Zalo, e.g. Bot Mao Trung. The account name (bot.xxx) always counts."
+    },
     "mention_mode": {
       "label": "Group Response Behavior",
       "help": "How the bot decides when to respond in groups with multiple bots."

@@ -120,6 +120,8 @@ func (c *Channel) handleGroup(ctx context.Context, event string, msg *message, c
 	c.collectContact(ctx, msg, "group")
 
 	if c.RequireMention() && !c.mentionsBot(msg.Text+" "+msg.Caption) {
+		slog.Info("zalo_bot: group message without bot mention kept as history",
+			"channel", c.Name(), "group_id", chatID, "message_id", msg.MessageID)
 		c.GroupHistory().Record(chatID, channels.HistoryEntry{
 			Sender:    senderName,
 			SenderID:  msg.From.ID,
@@ -145,13 +147,18 @@ func (c *Channel) handleGroup(ctx context.Context, event string, msg *message, c
 	c.GroupHistory().Clear(chatID)
 }
 
-// mentionsBot looks for "@<bot name>" in the text. The API has no mention field,
-// so the display form is the only signal available.
+// mentionsBot looks for "@<name>" in the text, using the account name from getMe
+// and the configured mention names. The API has no mention field, so the
+// display form is the only signal available.
 func (c *Channel) mentionsBot(text string) bool {
-	if c.botName == "" {
-		return false
+	lower := strings.ToLower(text)
+	for _, name := range append([]string{c.botName}, c.cfg.MentionNames...) {
+		name = strings.TrimSpace(strings.TrimPrefix(strings.TrimSpace(name), "@"))
+		if name != "" && strings.Contains(lower, "@"+strings.ToLower(name)) {
+			return true
+		}
 	}
-	return strings.Contains(strings.ToLower(text), "@"+strings.ToLower(c.botName))
+	return false
 }
 
 // extractContent builds the agent-facing text and downloads any attachment.

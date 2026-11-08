@@ -57,14 +57,15 @@ func TestNewTrimsPastedCredentials(t *testing.T) {
 
 func TestFactoryReadsCredentialsAndConfig(t *testing.T) {
 	creds := json.RawMessage(`{"token":"abc","webhook_secret":"12345678"}`)
-	cfg := json.RawMessage(`{"connection_mode":"webhook","webhook_url":"https://example.com/hook","require_mention":true,"history_limit":7,"allow_from":["u1"]}`)
+	cfg := json.RawMessage(`{"connection_mode":"webhook","webhook_url":"https://example.com/hook","require_mention":true,"history_limit":7,"allow_from":["u1"],"mention_names":["Bot Mao Trung"]}`)
 
 	built, err := Factory(nil, nil)("my-bot", creds, cfg, bus.New(), nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 	ch := built.(*Channel)
-	if ch.Name() != "my-bot" || ch.cfg.ConnectionMode != modeWebhook || !ch.RequireMention() || ch.HistoryLimit() != 7 {
+	if ch.Name() != "my-bot" || ch.cfg.ConnectionMode != modeWebhook || !ch.RequireMention() || ch.HistoryLimit() != 7 ||
+		len(ch.cfg.MentionNames) != 1 || ch.cfg.MentionNames[0] != "Bot Mao Trung" {
 		t.Fatalf("unexpected channel: name=%s cfg=%+v", ch.Name(), ch.cfg)
 	}
 }

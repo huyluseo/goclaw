@@ -50,11 +50,14 @@ type Config struct {
 	DMPolicy       string
 	GroupPolicy    string
 	RequireMention bool
-	HistoryLimit   int
-	MediaMaxMB     int
-	AllowFrom      []string
-	BlockReply     *bool
-	ChatBehavior   *config.ChatBehaviorConfig
+	// MentionNames are extra names that count as a mention, such as the display
+	// name members see in Zalo. getMe only returns the account name.
+	MentionNames []string
+	HistoryLimit int
+	MediaMaxMB   int
+	AllowFrom    []string
+	BlockReply   *bool
+	ChatBehavior *config.ChatBehaviorConfig
 	// PublicURL returns the gateway's public base URL. Zalo can only fetch
 	// outbound photos by URL, so local files need a reachable address.
 	PublicURL func() string
