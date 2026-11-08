@@ -299,6 +299,7 @@
     "dm_policy": { "label": "Chính sách DM" },
     "group_policy": { "label": "Chính sách nhóm" },
     "require_mention": { "label": "Yêu cầu @đề cập trong nhóm", "disabledHint": "Chế độ đa bot luôn lắng nghe tất cả tin nhắn" },
+    "mention_names": { "label": "Tên để tag", "help": "Tên hiển thị của bot khi thành viên tag trong Zalo, ví dụ Bot Mao Trung. Tên tài khoản (bot.xxx) luôn được tính." },
     "mention_mode": { "label": "Hành vi phản hồi nhóm", "help": "Cách bot quyết định khi nào phản hồi trong nhóm có nhiều bot." },
     "history_limit": { "label": "Giới hạn lịch sử nhóm", "help": "Số tin nhắn nhóm chờ tối đa cho ngữ cảnh (0 = tắt)" },
     "dm_stream": { "label": "Stream DM", "help": "Truyền phản hồi liên tục trong DM" },

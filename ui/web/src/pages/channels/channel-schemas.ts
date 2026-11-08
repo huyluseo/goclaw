@@ -208,6 +208,7 @@ export const configSchema: Record<string, FieldDef[]> = {
     { key: "dm_policy", label: "DM Policy", type: "select", options: dmPolicyOptions, defaultValue: "pairing" },
     { key: "group_policy", label: "Group Policy", type: "select", options: groupPolicyOptions, defaultValue: "pairing" },
     { key: "require_mention", label: "Require @mention in groups", type: "boolean", defaultValue: false },
+    { key: "mention_names", label: "Mention Names", type: "tags", help: "Bot display name as members tag it in Zalo, e.g. Bot Mao Trung. The account name (bot.xxx) always counts." },
     { key: "history_limit", label: "Group History Limit", type: "number", defaultValue: 200 },
     { key: "media_max_mb", label: "Max Media Size (MB)", type: "number", defaultValue: 20 },
     { key: "allow_from", label: "Allowed Users", type: "tags", help: "Zalo user IDs" },
